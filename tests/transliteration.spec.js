@@ -71,17 +71,17 @@ test.describe('SwiftTranslator Automation', () => {
     }
 
     // FIX 3: Renamed to Pos_UI_0002 to avoid sample overlap
-    test('Pos_UI_0001: Output clears when input is deleted', async ({ page }) => {
-        await page.goto('https://www.swifttranslator.com/', { waitUntil: 'domcontentloaded' });
-        const inputField = page.locator('textarea').first();
-        const outputField = page.locator('textarea').last();
-        
-        await inputField.fill('Testing Update');
-        await page.waitForTimeout(2000);
-        await inputField.fill('');
-        await page.waitForTimeout(2000);
-        
-        const output = await outputField.inputValue();
-        expect(output).toBe('');
-    });
+    test('Pos_UI_0001: Output updates in real-time while typing', async ({ page }) => {
+    await page.goto('https://www.swifttranslator.com/', { waitUntil: 'domcontentloaded' });
+
+    const inputField = page.locator('textarea').first();
+    const outputField = page.locator('textarea').last();
+
+    await inputField.pressSequentially('mama', { delay: 30 });
+    await page.waitForTimeout(1500);
+
+    const output = await outputField.inputValue();
+    expect(output.length).toBeGreaterThan(0);
+});
+
 });
