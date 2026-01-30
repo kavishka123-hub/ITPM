@@ -46,7 +46,7 @@ Check installation using:
 ```bash
 
 ### Step 2: Clone the Repository
-git clone https://github.com/your-username/Singlish-to-Sinhala-Translator-Automation-Testing.git
+git clone https://github.com/kavishka123-hub/ITPM/tree/main
 cd Singlish-to-Sinhala-Translator-Automation-Testing
 
 ### Step 3: Install Dependencies
