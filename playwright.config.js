@@ -24,7 +24,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. */
   use: {
     // 6. HEADED MODE: Open the browser window automatically
-    headless: true,
+    headless: process.env.CI ? true : false,
 
     // 7. SLOW MOTION: Wait 1 second (1000ms) between every action (click, type, etc.)
     launchOptions: {
