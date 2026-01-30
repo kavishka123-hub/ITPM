@@ -3,12 +3,12 @@ const { test, expect } = require('@playwright/test');
 const scenarios = [
     // ================= POSITIVE FUNCTIONAL TEST CASES =================
     { id: 'Pos_Fun_0001', input: 'mama gedhara yanavaa' },
-    { id: 'Pos_Fun_0002', input: 'api kaeema kanna yanavaa saha passe chithrapatayak balamu' },
+    { id: 'Pos_Fun_0002', input: 'api kaeema kanna yanavaa saha passe chithrapatayak balamu.' },
     { id: 'Pos_Fun_0003', input: 'oya enavaanam mama balan innavaa' },
     { id: 'Pos_Fun_0004', input: 'oyaa kavadhdha enne?' },
     { id: 'Pos_Fun_0005', input: 'issarahata yanna' },
     { id: 'Pos_Fun_0006', input: 'mama ehema karanne naehae' },
-    { id: 'Pos_Fun_0007', input: 'karuNaakaralaa mata podi udhavvak karanna puluvandha?' },
+    { id: 'Pos_Fun_0007', input: 'karuNaakaralaa mata podi udhavvak karanna puLuvandha?' },
     { id: 'Pos_Fun_0008', input: 'ehema karapan' },
     { id: 'Pos_Fun_0009', input: 'mama iyee gedhara giyaa' },
     { id: 'Pos_Fun_0010', input: 'api heta gedhara yamu' },
@@ -37,13 +37,14 @@ const scenarios = [
     { id: 'Neg_Fun_0007', input: 'mama gedhara yanavaa' },
     { id: 'Neg_Fun_0008', input: 'mata items 10 20 30 ganna oonee' },
     { id: 'Neg_Fun_0009', input: 'ado machan ela kiri wadak wenne nae bn' },
-    { id: 'Neg_Fun_0010', input: 'mama අද office yanna inne' } // Unicode Sinhala input
+    { id: 'Neg_Fun_0010', input: 'mama අද office yanna inne' }
 ];
 
-test.describe('SwiftTranslator – CI Safe Functional Automation', () => {
+test.describe('SwiftTranslator Automation', () => {
 
     test.setTimeout(180000);
 
+    // ================= FUNCTIONAL TESTS =================
     for (const data of scenarios) {
         test(`Test Case ${data.id}`, async ({ page }) => {
 
@@ -54,23 +55,42 @@ test.describe('SwiftTranslator – CI Safe Functional Automation', () => {
             const inputField = page.locator('textarea').first();
             const outputField = page.locator('textarea').last();
 
-            // Verify input field
             await expect(inputField).toBeVisible();
 
             // CI-safe input
             await inputField.fill(data.input);
 
-            // Allow processing time
             await page.waitForTimeout(3000);
 
             // CI-safe functional assertion
             await expect(outputField).toBeVisible();
 
-            console.log('-------------------------------');
+            console.log('-----------------------------------');
             console.log(`TC ID : ${data.id}`);
             console.log(`INPUT : ${data.input}`);
-            console.log('STATUS: Executed successfully');
-            console.log('-------------------------------');
+            console.log('STATUS: Executed');
+            console.log('-----------------------------------');
         });
     }
+
+    // ================= POSITIVE UI TEST CASE =================
+    test('Pos_UI_0001: Input and output fields are visible and responsive', async ({ page }) => {
+
+        await page.goto('https://www.swifttranslator.com/', {
+            waitUntil: 'domcontentloaded'
+        });
+
+        const inputField = page.locator('textarea').first();
+        const outputField = page.locator('textarea').last();
+
+        // UI visibility checks
+        await expect(inputField).toBeVisible();
+        await expect(outputField).toBeVisible();
+
+        // UI interaction check
+        await inputField.fill('mama gedhara yanavaa');
+        await page.waitForTimeout(2000);
+
+        await expect(outputField).toBeVisible();
+    });
 });
